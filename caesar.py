@@ -24,7 +24,24 @@ def decrypt(message, shift_amount):
         decryption += shift(letter, shift_amount)
         
     return decryption
+def get_file_name(i):
+    if i<10:
+        zeros = "00000"
+    elif i<100:
+        zeros = "0000"
+    elif i<1000:
+        zeros = "000"
+    elif i<10000:
+        zeros = "00"
+    else:
+        zeros = "0"
 
-with open("text_files/file_001597.txt", 'r') as f:
+    file_name = "text_files/file_" + zeros + str(i) + ".txt"
+
+    return file_name
+
+
+
+with open(get_file_name(1597), 'r') as f:
     message = f.read()
 print(decrypt(message, -34))

@@ -2,55 +2,76 @@
 
 def encrypt(message, key):
     encryption = ""
-    loc = 0
-    for i in range(len(message)):
-        
-        ######total = ord(message[loc]) + ord(key[loc])
-        ######basic = total / 2
+    
+    for l in range(len(message)):
+     
+        value = ord(message[l])+ord(key[l])
                
-        if basic < 32:
-            new = 31 - basic
+        if value < 32:
+            new = 31 - value
             new_value = 126 - new
         
-        elif basic > 126:
-            new = basic - 126
+        elif value > 126:
+            new = value - 126
             new_value = 31 + new
 
         else:
-            new_value = basic
+            new_value = value
         
         new_letter = chr(new_value)
-
-
         encryption += new_letter
-        loc +=1
         
     return(encryption)
 
 
+def decrypt(message, key):
+    decryption = ""
+    
+    for l in range(len(message)):
+        value = ord(message[l])-ord(key[l])
+        
+        while value < 32:
+            value+=95
+        
+        new_letter = chr(value)
+        decryption += new_letter
+         
+    return(decryption)
+
                    
-def key(message):
-
+def key(message, word):
+    
     key = ""
+    
+    full_times = len(message)//len(word)
+    
+    for i in range(full_times):
+        key += word
 
-    for i in range(len(message)):
-        if len(key)==0:
-            key+="e"
-        elif key[-1]=="e":
-            key+="n"
-        elif key[-1]=="n":
-            key+="i"
-        elif key[-1]=="i":
-            key+="g"
-        elif key[-1]=="g":
-            key+="m"
-        elif key[-1]=="m":
-            key+="a"
-        elif key[-1]=="a":
-            key+="e"
+    end = len(message)% len(word)
+    key += word[0:end]
 
     return key
 
-with open("text_files/file_007474.txt", 'r') as f:
+
+def get_file_name(i):
+    if i<10:
+        zeros = "00000"
+    elif i<100:
+        zeros = "0000"
+    elif i<1000:
+        zeros = "000"
+    elif i<10000:
+        zeros = "00"
+    else:
+        zeros = "0"
+
+    file_name = "text_files/file_" + zeros + str(i) + ".txt"
+
+    return file_name
+
+
+
+with open(get_file_name(16499), 'r') as f:
     message = f.read()
-print(encrypt(message, key(message)))
+print(decrypt(message, key(message, "enigma")))

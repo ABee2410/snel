@@ -55,7 +55,7 @@ for i in range(18000):
 
     mean(counts)
 
-    if (chi_square(counts))>155:
+    if (chi_square(counts))>140:
         print(file_name)
         print(chi_square(counts))
 
